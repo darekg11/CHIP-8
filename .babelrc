@@ -1,8 +1,10 @@
 {
     "presets": [
-        "env"
+        "@babel/env"
     ],
     "plugins": [
-        "transform-async-to-generator"
+        "transform-async-to-generator",
+        "transform-es2015-arrow-functions",
+        "@babel/plugin-proposal-class-properties"
     ]
 }
