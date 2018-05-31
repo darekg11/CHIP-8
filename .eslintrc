@@ -1,0 +1,22 @@
+{
+    "env": {
+        "browser": true,
+        "mocha": true
+    },
+    "parser": "babel-eslint",
+    "extends": "airbnb-base",
+    "plugins": [
+        "import"
+    ],
+    "rules": {
+        "max-len": [
+            2,
+            120,
+            2,
+            {
+                "ignoreUrls": true
+            }
+        ],
+        "no-confusing-arrow": "off"
+    }
+}
