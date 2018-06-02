@@ -108,6 +108,7 @@ class CPU {
           break;
         }
         default: {
+          console.error(`[cpu][executeCycle] Unknown OP Code. Full value ${opCodeFull} Command: ${opCodeCommand}`);
           break;
         }
       }
