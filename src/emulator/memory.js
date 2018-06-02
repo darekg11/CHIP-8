@@ -20,6 +20,21 @@ class Memory {
       this.memoryBank[memCnt] = characters[memCnt];
     }
   }
+
+  // Load game data into memory, starting at 0x200 memory location
+  loadGameToMemory = (gameData) => {
+    for (let gameMemory = 0; gameMemory < gameData.length; gameMemory += 1) {
+      this.memoryBank[0x200 + gameMemory] = gameData[gameMemory];
+    }
+  }
+
+  getValueAtAddress = (address) => {
+    if (address < 0 || address >= this.memoryBank.length) {
+      console.error(`[memory][getValueAtAddress][out-of-bounds] ${address} value is out of bounds`);
+      return null;
+    }
+    return this.memoryBank[address];
+  }
 }
 
 export default Memory;

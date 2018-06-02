@@ -17,6 +17,8 @@
                 "ignoreUrls": true
             }
         ],
-        "no-confusing-arrow": "off"
+        "no-confusing-arrow": "off",
+        "no-console": "off",
+        "no-bitwise": "off"
     }
 }
