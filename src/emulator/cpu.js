@@ -311,6 +311,12 @@ class CPU {
           }
           break;
         }
+        case OP_CODES.JP_V0: {
+          const jmpAddress = opCodeFull & 0x0FFF;
+          this.pc = this.v[0] + jmpAddress;
+          console.log(`[cpu][executeCycle][JP_V0] Jumping to address: ${toHexString(this.pc)}`);
+          break;
+        }
         default: {
           console.error(`[cpu][executeCycle] Unknown OP Code. Full value ${toHexString(opCodeFull)} Command: ${toHexString(opCodeCommand)}`);
           break;

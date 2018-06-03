@@ -108,6 +108,11 @@ const OP_CODES = {
   // The values of Vx and Vy are compared, and if they are not equal,
   // the program counter is increased by 2.
   SNE_VX_VY: 0x9,
+
+  // Bnnn - JP V0, addr
+  // Jump to location nnn + V0.
+  // The program counter is set to nnn plus the value of V0.
+  JP_V0: 0xB,
 };
 
 export default OP_CODES;
