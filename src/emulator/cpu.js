@@ -108,6 +108,7 @@ class CPU {
           const valueToSetToIRegister = opCodeFull & 0x0FFF;
           this.i = valueToSetToIRegister;
           console.log(`[cpu][executeCycle][LD-I] Register I will be set to: ${toHexString(valueToSetToIRegister)}`);
+          this.pc += 2;
           break;
         }
         case OP_CODES.CLS_RET: {
@@ -116,12 +117,14 @@ class CPU {
               console.log('[cpu][executeCycle][CLS] Clearing screen');
               this.graphicsController.clearScreen();
               this.drawFlag = true;
+              this.pc += 2;
               break;
             }
             case OP_CODES.RET: {
               console.log('[cpu][executeCycle][RET] Returning from subroutine');
               this.sp -= 1;
               this.pc = this.stack[this.sp];
+              this.pc += 2; // Not sure 100%
               break;
             }
             default: {
@@ -157,6 +160,8 @@ class CPU {
           console.log(`[cpu][executeCycle][SE_VX_BYTE] Value to compare: ${toHexString(valueToCompare)}`);
           if (this.v[vRegisterNumber] === valueToCompare) {
             console.log('[cpu][executeCycle][SE_VX_BYTE] Skipping instruction');
+            this.pc += 4;
+          } else {
             this.pc += 2;
           }
           break;
@@ -169,6 +174,8 @@ class CPU {
           console.log(`[cpu][executeCycle][SNE_VX_BYTE] Value to compare: ${toHexString(valueToCompare)}`);
           if (this.v[vRegisterNumber] !== valueToCompare) {
             console.log('[cpu][executeCycle][SNE_VX_BYTE] Skipping instruction');
+            this.pc += 4;
+          } else {
             this.pc += 2;
           }
           break;
@@ -178,6 +185,8 @@ class CPU {
           console.log(`[cpu][executeCycle][OP_CODES.SE_VX_VY] V Register: ${yRegisterNumber}`);
           if (this.v[vRegisterNumber] === this.v[yRegisterNumber]) {
             console.log('[cpu][executeCycle][SE_VX_VY] Skipping instruction');
+            this.pc += 4;
+          } else {
             this.pc += 2;
           }
           break;
@@ -187,6 +196,7 @@ class CPU {
           this.v[vRegisterNumber] = valueToInsert;
           console.log(`[cpu][executeCycle][OP_CODES.LD_VX_BYTE] V Register: ${vRegisterNumber}`);
           console.log(`[cpu][executeCycle][OP_CODES.LD_VX_BYTE] Value to insert: ${toHexString(valueToInsert)}`);
+          this.pc += 2;
           break;
         }
         case OP_CODES.ADD_VX_BYTE: {
@@ -200,6 +210,7 @@ class CPU {
           this.v[vRegisterNumber] = sum;
           console.log(`[cpu][executeCycle][OP_CODES.ADD_VX_BYTE] V Register: ${vRegisterNumber}`);
           console.log(`[cpu][executeCycle][OP_CODES.ADD_VX_BYTE] Value to insert: ${sum}`);
+          this.pc += 2;
           break;
         }
         case OP_CODES.LD_OR_AND_XOR_ADD_SUB_SHR_SUBN_SHL: {
@@ -210,24 +221,28 @@ class CPU {
               this.v[vRegisterNumber] = this.v[yRegisterNumber];
               console.log(`[cpu][executeCycle][OP_CODES.LD_VX_VY] V Register: ${vRegisterNumber}`);
               console.log(`[cpu][executeCycle][OP_CODES.LD_VX_VY] V Register: ${yRegisterNumber}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.OR_VX_VY: {
               this.v[vRegisterNumber] = this.v[vRegisterNumber] | this.v[yRegisterNumber];
               console.log(`[cpu][executeCycle][OP_CODES.OR_VX_VY] V Register: ${vRegisterNumber}`);
               console.log(`[cpu][executeCycle][OP_CODES.OR_VX_VY] V Register: ${yRegisterNumber}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.AND_VX_VY: {
               this.v[vRegisterNumber] = this.v[vRegisterNumber] & this.v[yRegisterNumber];
               console.log(`[cpu][executeCycle][OP_CODES.AND_VX_VY] V Register: ${vRegisterNumber}`);
               console.log(`[cpu][executeCycle][OP_CODES.AND_VX_VY] V Register: ${yRegisterNumber}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.XOR_VX_VY: {
               this.v[vRegisterNumber] = this.v[vRegisterNumber] ^ this.v[yRegisterNumber];
               console.log(`[cpu][executeCycle][OP_CODES.XOR_VX_VY] V Register: ${vRegisterNumber}`);
               console.log(`[cpu][executeCycle][OP_CODES.XOR_VX_VY] V Register: ${yRegisterNumber}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.ADD_VX_VY: {
@@ -246,6 +261,7 @@ class CPU {
               this.v[vRegisterNumber] = sum;
               console.log(`[cpu][executeCycle][OP_CODES.ADD_VX_VY] V Register: ${vRegisterNumber}`);
               console.log(`[cpu][executeCycle][OP_CODES.ADD_VX_VY] Value to insert: ${sum}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.SUB_VY_VY: {
@@ -259,12 +275,14 @@ class CPU {
               this.v[vRegisterNumber] = diff;
               console.log(`[cpu][executeCycle][OP_CODES.SUB_VY_VY] V Register: ${vRegisterNumber}`);
               console.log(`[cpu][executeCycle][OP_CODES.SUB_VY_VY] Value to insert: ${diff}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.SHR_VX_VY: {
               this.v[0xF] = this.v[yRegisterNumber] & 0x1;
               this.v[vRegisterNumber] = this.v[yRegisterNumber] >> 1;
               console.log(`[cpu][executeCycle][OP_CODES.SHR_VX_VY] Shifted V Register: ${yRegisterNumber} by one to right, result saved in V Register: ${vRegisterNumber}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.SUBN_VX_VY: {
@@ -278,6 +296,7 @@ class CPU {
               this.v[vRegisterNumber] = diff;
               console.log(`[cpu][executeCycle][OP_CODES.SUBN_VX_VY] V Register: ${vRegisterNumber}`);
               console.log(`[cpu][executeCycle][OP_CODES.SUBN_VX_VY] Value to insert: ${diff}`);
+              this.pc += 2;
               break;
             }
             case OP_CODES.SHL_VX_VY: {
@@ -292,6 +311,7 @@ class CPU {
               }
               this.v[vRegisterNumber] = registerValueAfterShifting;
               console.log(`[cpu][executeCycle][OP_CODES.SHL_VX_VY] Shifted V Register: ${yRegisterNumber} by one to left, result saved in V Register: ${vRegisterNumber}`);
+              this.pc += 2;
               break;
             }
             default: {
@@ -308,6 +328,8 @@ class CPU {
           console.log(`[cpu][executeCycle][SE_VX_BYTE] Y Register Value: ${toHexString(registerYValue)}`);
           if (registerXValue !== registerYValue) {
             console.log('[cpu][executeCycle][SNE_VX_VY] Skipping instruction');
+            this.pc += 4;
+          } else {
             this.pc += 2;
           }
           break;
@@ -316,6 +338,7 @@ class CPU {
           const jmpAddress = opCodeFull & 0x0FFF;
           this.pc = this.v[0] + jmpAddress;
           console.log(`[cpu][executeCycle][JP_V0] Jumping to address: ${toHexString(this.pc)}`);
+          this.pc += 2;
           break;
         }
         case OP_CODES.RND_VX_BYTE: {
@@ -326,6 +349,7 @@ class CPU {
           console.log(`[cpu][executeCycle][RND_VX_BYTE] Random number: ${randomNumber}`);
           console.log(`[cpu][executeCycle][RND_VX_BYTE] Value to AND with: ${valueToAndWith}`);
           console.log(`[cpu][executeCycle][RND_VX_BYTE] Result: ${result}`);
+          this.pc += 2;
           break;
         }
         default: {
@@ -333,10 +357,6 @@ class CPU {
           break;
         }
       }
-
-      // Increase Program Counter by two (fetching two memory address in order to
-      // constuct single op code) every time cycle is executed
-      this.pc += 2;
     }
   }
 }
