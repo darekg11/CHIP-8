@@ -6,15 +6,17 @@ class Graphics {
     this.reset();
   }
 
-  reset() {
+  reset = () => {
     for (let memoryCnt = 0; memoryCnt < this.pixelMap.length; memoryCnt += 1) {
       this.pixelMap[memoryCnt] = 0;
     }
   }
 
-  clearScreen() {
+  clearScreen = () => {
     this.reset();
   }
+
+  getGraphicsMemoryMap = () => this.pixelMap;
 }
 
 export default Graphics;

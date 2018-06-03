@@ -2,6 +2,7 @@ import CPU from './emulator/cpu';
 import Memory from './emulator/memory';
 import Graphics from './emulator/graphics';
 import Input from './emulator/input';
+import CanvasRenderer from './emulator/canvasRenderer';
 
 // const pongBinDump = [
 //   0x6A, 0x02, 0x6B, 0x0C, 0x6C, 0x3F,
@@ -51,10 +52,14 @@ const testProgram = [
   0x6A, 0x02,
 ];
 
+const HEIGHT = 32;
+const WIDTH = 64;
+const SCALE = 5;
+
 class Emulator {
   constructor() {
     this.memory = new Memory();
-    this.graphics = new Graphics(32, 64);
+    this.graphics = new Graphics(WIDTH, HEIGHT);
     this.input = new Input();
     this.cpu = new CPU(this.memory, this.graphics, this.input);
   }
@@ -68,7 +73,9 @@ class Emulator {
   }
 }
 
-// const canvas = document.querySelector('#chip8-canvas');
+const canvas = document.getElementById('chip8-canvas');
+const renderer = new CanvasRenderer(canvas, WIDTH, HEIGHT, SCALE);
 const emulator = new Emulator();
+renderer.clearScreen();
 emulator.loadGame();
 emulator.executeCycle();

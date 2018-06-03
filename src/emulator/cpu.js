@@ -115,6 +115,7 @@ class CPU {
             case OP_CODES.CLS: {
               console.log('[cpu][executeCycle][CLS] Clearing screen');
               this.graphicsController.clearScreen();
+              this.drawFlag = true;
               break;
             }
             case OP_CODES.RET: {
