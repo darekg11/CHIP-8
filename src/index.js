@@ -48,7 +48,7 @@ import Input from './emulator/input';
 // ];
 
 const testProgram = [
-  0xA2, 0xF0,
+  0x6A, 0x02,
 ];
 
 class Emulator {
