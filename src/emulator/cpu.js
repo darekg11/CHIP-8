@@ -317,6 +317,16 @@ class CPU {
           console.log(`[cpu][executeCycle][JP_V0] Jumping to address: ${toHexString(this.pc)}`);
           break;
         }
+        case OP_CODES.RND_VX_BYTE: {
+          const randomNumber = Math.floor(Math.random() * 256);
+          const valueToAndWith = opCodeFull & 0x00FF;
+          const result = randomNumber & valueToAndWith;
+          this.v[vRegisterNumber] = result;
+          console.log(`[cpu][executeCycle][RND_VX_BYTE] Random number: ${randomNumber}`);
+          console.log(`[cpu][executeCycle][RND_VX_BYTE] Value to AND with: ${valueToAndWith}`);
+          console.log(`[cpu][executeCycle][RND_VX_BYTE] Result: ${result}`);
+          break;
+        }
         default: {
           console.error(`[cpu][executeCycle] Unknown OP Code. Full value ${toHexString(opCodeFull)} Command: ${toHexString(opCodeCommand)}`);
           break;

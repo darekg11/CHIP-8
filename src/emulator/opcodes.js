@@ -113,6 +113,12 @@ const OP_CODES = {
   // Jump to location nnn + V0.
   // The program counter is set to nnn plus the value of V0.
   JP_V0: 0xB,
+
+  // Cxkk - RND Vx, byte
+  // Set Vx = random byte AND kk.
+  // The interpreter generates a random number from 0 to 255, which is then ANDed with the value kk.
+  // The results are stored in Vx
+  RND_VX_BYTE: 0xC,
 };
 
 export default OP_CODES;
