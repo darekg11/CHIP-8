@@ -103,6 +103,11 @@ const OP_CODES = {
   // If the most-significant bit of Vx is 1, then VF is set to 1, otherwise to 0.
   // Then Vx is multiplied by 2.
   SHL_VX_VY: 0xE,
+
+  // Skip next instruction if Vx != Vy.
+  // The values of Vx and Vy are compared, and if they are not equal,
+  // the program counter is increased by 2.
+  SNE_VX_VY: 0x9,
 };
 
 export default OP_CODES;

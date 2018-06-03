@@ -300,6 +300,17 @@ class CPU {
           }
           break;
         }
+        case OP_CODES.SNE_VX_VY: {
+          const registerXValue = this.v[vRegisterNumber];
+          const registerYValue = this.v[yRegisterNumber];
+          console.log(`[cpu][executeCycle][SE_VX_BYTE] V Register Value: ${toHexString(registerXValue)}`);
+          console.log(`[cpu][executeCycle][SE_VX_BYTE] Y Register Value: ${toHexString(registerYValue)}`);
+          if (registerXValue !== registerYValue) {
+            console.log('[cpu][executeCycle][SNE_VX_VY] Skipping instruction');
+            this.pc += 2;
+          }
+          break;
+        }
         default: {
           console.error(`[cpu][executeCycle] Unknown OP Code. Full value ${toHexString(opCodeFull)} Command: ${toHexString(opCodeCommand)}`);
           break;
