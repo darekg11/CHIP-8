@@ -352,6 +352,43 @@ class CPU {
           this.pc += 2;
           break;
         }
+        case OP_CODES.DRW: {
+          const x = this.v[vRegisterNumber];
+          const y = this.v[yRegisterNumber];
+          const height = opCodeFull & 0x000F;
+          this.v[0xF] = 0;
+          for (let heightCnt = 0; heightCnt < height; heightCnt += 1) {
+            // this is 8 bits, for example: 10011001
+            const sprite = this.memoryController.getValueAtAddress(this.i + heightCnt);
+            // CHIP-8 sprites are always 8 pixels width
+            for (let widthCnt = 0; widthCnt < 8; widthCnt += 1) {
+              // What is this sorcery?
+              // sprite is 8 bit long word, for example 10011001
+              // 0x80 >> widthCnt will generate next 8 bits binary values with sequential 1
+              // 0x80 >> 0 = 256 = 10000000
+              // 0x80 >> 1 = 128 = 01000000
+              // 0x80 >> 2 = 64  = 00100000
+              // etc
+              // sprite & generated bit will seqentaily pick another bit from sprite that we need to draw
+              const spriteBit = sprite & (0x80 >> widthCnt);
+              // Only check if sprite bit is 1 because current pixel is XORed with new bit from sprite
+              // XORing when sprite bit is 0 makes not sense as it won't change state of bit:
+              // 0 XOR 0 = 0 -> did not change state
+              // 0 XOR 1 = 1
+              // 1 XOR 0 = 1 -> did not change state
+              // 1 XOR 1 = 0
+              if (spriteBit !== 0) {
+                const pixelCollide = this.graphicsController.setPixel(x + widthCnt, y + height);
+                if (pixelCollide) {
+                  this.v[0xF] = 1;
+                }
+              }
+            }
+          }
+          this.drawFlag = true;
+          this.pc += 2;
+          break;
+        }
         default: {
           console.error(`[cpu][executeCycle] Unknown OP Code. Full value ${toHexString(opCodeFull)} Command: ${toHexString(opCodeCommand)}`);
           break;

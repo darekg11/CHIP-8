@@ -16,6 +16,32 @@ class Graphics {
     this.reset();
   }
 
+  // returns true if pixel was overwritten
+  // false otherwise
+  setPixel = (x, y) => {
+    let xOverflowProtected = x;
+    let yOverflowProtected = y;
+
+    if (xOverflowProtected > this.width) {
+      xOverflowProtected -= this.width;
+    }
+    if (xOverflowProtected < this.width) {
+      xOverflowProtected += this.width;
+    }
+
+    if (yOverflowProtected > this.height) {
+      yOverflowProtected -= this.height;
+    }
+    if (yOverflowProtected < this.height) {
+      yOverflowProtected += this.height;
+    }
+
+    const destinationGraphicLocation = xOverflowProtected + (yOverflowProtected * this.width);
+    const willOverlap = this.pixelMap[destinationGraphicLocation] === 1;
+    this.pixelMap[destinationGraphicLocation] ^= 1;
+    return willOverlap;
+  }
+
   getGraphicsMemoryMap = () => this.pixelMap;
 }
 
