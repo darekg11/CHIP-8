@@ -80,7 +80,7 @@ class CPU {
     // actual opcode.
     const firstPartOfOpcode = this.memoryController.getValueAtAddress(this.pc);
     const secondPartOfOpcode = this.memoryController.getValueAtAddress(this.pc + 1);
-    if (!firstPartOfOpcode || !secondPartOfOpcode) {
+    if (firstPartOfOpcode === null || secondPartOfOpcode === null) {
       console.error(`[cpu][executeCycle] Op code could not be fetched. PC is at: ${this.pc}`);
     } else {
       // Shift 8 bits to to left = add eight zero bits
@@ -387,6 +387,9 @@ class CPU {
           }
           this.drawFlag = true;
           this.pc += 2;
+          console.log(`[cpu][executeCycle][DRW] X: ${x}`);
+          console.log(`[cpu][executeCycle][DRW] Y: ${y}`);
+          console.log(`[cpu][executeCycle][DRW] HEIGHT: ${height}`);
           break;
         }
         default: {
