@@ -403,7 +403,9 @@ class CPU {
           break;
         }
         case OP_CODES.SKP_SKNP: {
-          switch (opCodeFull) {
+          const directOpCode = opCodeFull & 0xFF;
+          console.log(`[cpu][executeCycle][OP_CODES.SKP_SKNP] Direct OP Code: ${directOpCode}`);
+          switch (directOpCode) {
             case OP_CODES.SKP: {
               if (this.inputController.isKeyPressed(this.v[vRegisterNumber])) {
                 console.log(`[cpu][executeCycle][SKP] Key: ${vRegisterNumber} is pressed. Skipping instruction.`);
@@ -424,6 +426,92 @@ class CPU {
             }
             default: {
               console.error(`[cpu][executeCycle][SKP_SKNP] Unknown OP Code. Full value ${toHexString(opCodeFull)}`);
+              break;
+            }
+          }
+          break;
+        }
+        case OP_CODES.F_GROUP: {
+          const directOpCode = opCodeFull & 0xFF;
+          console.log(`[cpu][executeCycle][OP_CODES.F_GROUP] Direct OP Code: ${directOpCode}`);
+          switch (directOpCode) {
+            case OP_CODES.LD_VX_DT: {
+              this.v[vRegisterNumber] = this.delayTimer;
+              console.log(`[cpu][executeCycle][LD_VX_DT] Placing delay timer value: ${this.delayTimer} into v[${vRegisterNumber}] register`);
+              this.pc += 2;
+              break;
+            }
+            case OP_CODES.LD_VX_K: {
+              const pressedKey = this.inputController.isAnyKeyPressed();
+              // If there is any key pressed
+              if (pressedKey !== false) {
+                this.v[vRegisterNumber] = pressedKey;
+                this.pc += 2;
+                console.log('[cpu][executeCycle][LD_VX_K] Key has been pressed, continue executing.');
+              } else {
+                console.log('[cpu][executeCycle][LD_VX_K] Key has NOT been pressed, STOPPING executing.');
+              }
+              break;
+            }
+            case OP_CODES.LD_DT_VX: {
+              this.delayTimer = this.v[vRegisterNumber];
+              console.log(`[cpu][executeCycle][LD_DT_VX] Setting delay timer to value: ${this.v[vRegisterNumber]}`);
+              this.pc += 2;
+              break;
+            }
+            case OP_CODES.LD_ST_VX: {
+              this.soundTimer = this.v[vRegisterNumber];
+              console.log(`[cpu][executeCycle][LD_ST_VX] Setting sound timer to value: ${this.v[vRegisterNumber]}`);
+              this.pc += 2;
+              break;
+            }
+            case OP_CODES.ADD_I_VX: {
+              console.log(`[cpu][executeCycle][ADD_I_VX] Adding value from v[${vRegisterNumber}]: ${this.v[vRegisterNumber]} to I register value: ${this.i}`);
+              this.i += this.v[vRegisterNumber];
+              console.log(`[cpu][executeCycle][ADD_I_VX] Sum: ${this.i}`);
+              this.pc += 2;
+              break;
+            }
+            case OP_CODES.LD_F_VX: {
+              // Multiply by number of rows per character.
+              this.i = this.v[vRegisterNumber] * 5;
+              console.log(`[cpu][executeCycle][LD_F_VX] Register I set to address of digit: ${vRegisterNumber}`);
+              this.pc += 2;
+              break;
+            }
+            case OP_CODES.LD_B_BX: {
+              const hundredsDigit = (this.v[vRegisterNumber] - (this.v[vRegisterNumber] % 100)) / 100;
+              const tensRest = this.v[vRegisterNumber] - (hundredsDigit * 100);
+              const tensDigit = (tensRest - (tensRest % 10)) / 10;
+              const onesDigit = this.v[vRegisterNumber] - (hundredsDigit * 100) - (tensDigit * 10);
+              this.memoryController.storeValueAtAddress(this.i, hundredsDigit);
+              this.memoryController.storeValueAtAddress(this.i + 1, tensDigit);
+              this.memoryController.storeValueAtAddress(this.i + 2, onesDigit);
+              console.log(`[cpu][executeCycle][LD_B_BX] Storing BCD representation of ${this.v[vRegisterNumber]} at I, I+1, I+2`);
+              console.log(`[cpu][executeCycle][LD_B_BX] Hundreds: ${hundredsDigit}`);
+              console.log(`[cpu][executeCycle][LD_B_BX] Tens: ${tensDigit}`);
+              console.log(`[cpu][executeCycle][LD_B_BX] Ones: ${onesDigit}`);
+              this.pc += 2;
+              break;
+            }
+            case OP_CODES.LD_I_VX: {
+              for (let cnt = 0; cnt <= vRegisterNumber; cnt += 1) {
+                this.memoryController.storeValueAtAddress(this.i + cnt, this.v[cnt]);
+              }
+              console.log('[cpu][executeCycle][LD_I_VX] Coping V registers to memory');
+              this.pc += 2;
+              break;
+            }
+            case OP_CODES.LD_VX_I: {
+              for (let cnt = 0; cnt <= vRegisterNumber; cnt += 1) {
+                this.v[vRegisterNumber] = this.memoryController.getValueAtAddress(this.i + cnt);
+              }
+              console.log('[cpu][executeCycle][LD_VX_I] Coping Memory to V registers');
+              this.pc += 2;
+              break;
+            }
+            default: {
+              console.error(`[cpu][executeCycle][F_GROUP] Unknown OP Code. Full value ${toHexString(opCodeFull)}`);
               break;
             }
           }

@@ -35,6 +35,15 @@ class Memory {
     }
     return this.memoryBank[address];
   }
+
+  storeValueAtAddress = (address, value) => {
+    if (address < 0 || address >= this.memoryBank.length) {
+      console.error(`[memory][storeValueAtAddress][out-of-bounds] ${address} value is out of bounds`);
+      return false;
+    }
+    this.memoryBank[address] = value;
+    return true;
+  }
 }
 
 export default Memory;

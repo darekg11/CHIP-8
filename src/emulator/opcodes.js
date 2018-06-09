@@ -132,13 +132,72 @@ const OP_CODES = {
   // All start with E at first 4 bits
   SKP_SKNP: 0xE,
 
+  // Ex9E - SKP Vx
   // Skip next instruction if key with the value of Vx is pressed.
   // Checks the keyboard, and if the key corresponding to the value of Vx is currently in the down position, PC is increased by 2.
-  SKP: 0x009E,
+  SKP: 0x9E,
 
+  // ExA1 - SKNP Vx
   // Skip next instruction if key with the value of Vx is not pressed.
   // Checks the keyboard, and if the key corresponding to the value of Vx is currently in the up position, PC is increased by 2.
-  SKNP: 0x00A1,
+  SKNP: 0xA1,
+
+  // Group for OP codes start at F
+  // LD Vx, DT
+  // LD Vx, K
+  // LD DT, Vx
+  // LD ST, Vx
+  // ADD I, Vx
+  // LD F, Vx
+  // LD B, Vx
+  // LD [I], Vx
+  // LD Vx, [I]
+  F_GROUP: 0xF,
+
+  // Fx07 - LD Vx, DT
+  // Set Vx = delay timer value.
+  // The value of DT is placed into Vx.
+  LD_VX_DT: 0x07,
+
+  // Fx0A - LD Vx, K
+  // Wait for a key press, store the value of the key in Vx.
+  // All execution stops until a key is pressed, then the value of that key is stored in Vx.
+  LD_VX_K: 0x0A,
+
+  // Fx15 - LD DT, Vx
+  // Set delay timer = Vx.
+  // DT is set equal to the value of Vx.
+  LD_DT_VX: 0x15,
+
+  // Fx18 - LD ST, Vx
+  // Set sound timer = Vx.
+  // ST is set equal to the value of Vx.
+  LD_ST_VX: 0x18,
+
+  // Fx1E - ADD I, Vx
+  // Set I = I + Vx.
+  // The values of I and Vx are added, and the results are stored in I.
+  ADD_I_VX: 0x1E,
+
+  // Fx29 - LD F, Vx
+  // Set I = location of sprite for digit Vx.
+  // The value of I is set to the location for the hexadecimal sprite corresponding to the value of Vx.
+  LD_F_VX: 0x29,
+
+  // Fx33 - LD B, Vx
+  // Store BCD representation of Vx in memory locations I, I+1, and I+2.
+  // The interpreter takes the decimal value of Vx, and places the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.
+  LD_B_BX: 0x33,
+
+  // Fx55 - LD [I], Vx
+  // Store registers V0 through Vx in memory starting at location I.
+  // The interpreter copies the values of registers V0 through Vx into memory, starting at the address in I.
+  LD_I_VX: 0x55,
+
+  // Fx65 - LD Vx, [I]
+  // Read registers V0 through Vx from memory starting at location I.
+  // The interpreter reads values from memory starting at location I into registers V0 through Vx.
+  LD_VX_I: 0x65,
 };
 
 export default OP_CODES;
