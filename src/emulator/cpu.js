@@ -402,6 +402,33 @@ class CPU {
           console.log(`[cpu][executeCycle][DRW] HEIGHT: ${height}`);
           break;
         }
+        case OP_CODES.SKP_SKNP: {
+          switch (opCodeFull) {
+            case OP_CODES.SKP: {
+              if (this.inputController.isKeyPressed(this.v[vRegisterNumber])) {
+                console.log(`[cpu][executeCycle][SKP] Key: ${vRegisterNumber} is pressed. Skipping instruction.`);
+                this.pc += 4;
+              } else {
+                this.pc += 2;
+              }
+              break;
+            }
+            case OP_CODES.SKNP: {
+              if (!this.inputController.isKeyPressed(this.v[vRegisterNumber])) {
+                console.log(`[cpu][executeCycle][SKNP] Key: ${vRegisterNumber} is NOT pressed. Skipping instruction.`);
+                this.pc += 4;
+              } else {
+                this.pc += 2;
+              }
+              break;
+            }
+            default: {
+              console.error(`[cpu][executeCycle][SKP_SKNP] Unknown OP Code. Full value ${toHexString(opCodeFull)}`);
+              break;
+            }
+          }
+          break;
+        }
         default: {
           console.error(`[cpu][executeCycle] Unknown OP Code. Full value ${toHexString(opCodeFull)} Command: ${toHexString(opCodeCommand)}`);
           break;

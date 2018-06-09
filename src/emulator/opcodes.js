@@ -127,6 +127,18 @@ const OP_CODES = {
   // If this causes any pixels to be erased, VF is set to 1, otherwise it is set to 0.
   // If the sprite is positioned so part of it is outside the coordinates of the display, it wraps around to the opposite side of the screen.
   DRW: 0xD,
+
+  // SKP / SKNP
+  // All start with E at first 4 bits
+  SKP_SKNP: 0xE,
+
+  // Skip next instruction if key with the value of Vx is pressed.
+  // Checks the keyboard, and if the key corresponding to the value of Vx is currently in the down position, PC is increased by 2.
+  SKP: 0x009E,
+
+  // Skip next instruction if key with the value of Vx is not pressed.
+  // Checks the keyboard, and if the key corresponding to the value of Vx is currently in the up position, PC is increased by 2.
+  SKNP: 0x00A1,
 };
 
 export default OP_CODES;
