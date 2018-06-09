@@ -48,10 +48,6 @@ const pongBinDump = [
   0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
 ];
 
-// const testProgram = [
-//   0x6A, 0x02,
-// ];
-
 const HEIGHT = 32;
 const WIDTH = 64;
 const SCALE = 5;
@@ -73,9 +69,40 @@ class Emulator {
   }
 }
 
+const hookUpControlls = (emulatorInstance) => {
+  const keyMappings = {
+    49: 0x1,
+    50: 0x2,
+    51: 0x3,
+    52: 0x4,
+    81: 0x5,
+    87: 0x6,
+    69: 0x7,
+    82: 0x8,
+    65: 0x9,
+    83: 0xA,
+    68: 0xB,
+    70: 0xC,
+    90: 0xD,
+    88: 0xE,
+    67: 0xF,
+    86: 0x10,
+  };
+  document.addEventListener('keydown', (event) => {
+    const keyCode = { event };
+    emulatorInstance.cpu.keyPressed(keyMappings[keyCode]);
+  });
+
+  document.addEventListener('keyup', (event) => {
+    const keyCode = { event };
+    emulatorInstance.cpu.keyReleased(keyMappings[keyCode]);
+  });
+};
+
 const canvas = document.getElementById('chip8-canvas');
 const renderer = new CanvasRenderer(canvas, WIDTH, HEIGHT, SCALE);
 const emulator = new Emulator();
+hookUpControlls(emulator);
 renderer.clearScreen();
 emulator.loadGame();
 

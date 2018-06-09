@@ -10,6 +10,29 @@ class Input {
       this.inputMap[memoryCnt] = 0;
     }
   }
+
+  pressKey = (keyAddress) => {
+    if (keyAddress < 0 || keyAddress >= 0xF) {
+      console.error(`Key Address: ${keyAddress} is outside of input mapping size!`);
+    } else {
+      this.inputMap[keyAddress] = 1;
+    }
+  }
+
+  releaseKey = (keyAddress) => {
+    if (keyAddress < 0 || keyAddress >= 0xF) {
+      console.error(`Key Address: ${keyAddress} is outside of input mapping size!`);
+    } else {
+      this.inputMap[keyAddress] = 0;
+    }
+  }
+
+  isKeyPressed = (keyAddress) => {
+    if (keyAddress < 0 || keyAddress >= 0xF) {
+      return false;
+    }
+    return this.inputMap[keyAddress] === 1;
+  }
 }
 
 export default Input;

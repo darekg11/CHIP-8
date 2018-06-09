@@ -74,6 +74,16 @@ class CPU {
     this.memoryController.loadGameToMemory(romData);
   }
 
+  keyPressed = (keyAddress) => {
+    console.log(`Pressed key at address: ${keyAddress}`);
+    this.inputController.pressKey(keyAddress);
+  }
+
+  keyReleased = (keyAddress) => {
+    console.log(`Released key at address: ${keyAddress}`);
+    this.inputController.releaseKey(keyAddress);
+  }
+
   executeCycle = () => {
     // Data is stored in an array in which each address contains one byte.
     // As one opcode is 2 bytes long, we will need to fetch two successive bytes and merge them to get the
