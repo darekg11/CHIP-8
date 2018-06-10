@@ -3,6 +3,8 @@ class Graphics {
     // The graphics of the Chip 8 are black and white and the screen has a total of 2048 pixels (64 x 32).
     // This can easily be implemented using an array that hold the pixel state (1 or 0)
     this.pixelMap = new Array(width * height);
+    this.width = width;
+    this.height = height;
     this.reset();
   }
 
@@ -25,14 +27,14 @@ class Graphics {
     if (xOverflowProtected > this.width) {
       xOverflowProtected -= this.width;
     }
-    if (xOverflowProtected < this.width) {
+    if (xOverflowProtected < 0) {
       xOverflowProtected += this.width;
     }
 
     if (yOverflowProtected > this.height) {
       yOverflowProtected -= this.height;
     }
-    if (yOverflowProtected < this.height) {
+    if (yOverflowProtected < 0) {
       yOverflowProtected += this.height;
     }
 

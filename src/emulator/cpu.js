@@ -388,7 +388,7 @@ class CPU {
               // 1 XOR 0 = 1 -> did not change state
               // 1 XOR 1 = 0
               if (spriteBit !== 0) {
-                const pixelCollide = this.graphicsController.setPixel(x + widthCnt, y + height);
+                const pixelCollide = this.graphicsController.setPixel(x + widthCnt, y + heightCnt);
                 if (pixelCollide) {
                   this.v[0xF] = 1;
                 }
@@ -504,7 +504,7 @@ class CPU {
             }
             case OP_CODES.LD_VX_I: {
               for (let cnt = 0; cnt <= vRegisterNumber; cnt += 1) {
-                this.v[vRegisterNumber] = this.memoryController.getValueAtAddress(this.i + cnt);
+                this.v[cnt] = this.memoryController.getValueAtAddress(this.i + cnt);
               }
               console.log('[cpu][executeCycle][LD_VX_I] Coping Memory to V registers');
               this.pc += 2;
