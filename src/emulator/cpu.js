@@ -84,6 +84,18 @@ class CPU {
     this.inputController.releaseKey(keyAddress);
   }
 
+  executeTimers = () => {
+    if (this.delayTimer > 0) {
+      this.delayTimer -= 1;
+    }
+    if (this.soundTimer > 0) {
+      if (this.soundTimer === 1) {
+        // this.renderer.beep();
+      }
+      this.soundTimer -= 1;
+    }
+  }
+
   executeCycle = () => {
     // Data is stored in an array in which each address contains one byte.
     // As one opcode is 2 bytes long, we will need to fetch two successive bytes and merge them to get the
@@ -224,7 +236,7 @@ class CPU {
           break;
         }
         case OP_CODES.LD_OR_AND_XOR_ADD_SUB_SHR_SUBN_SHL: {
-          const directOpCode = (opCodeFull & 0x000F) << 12;
+          const directOpCode = opCodeFull & 0x000F;
           console.log(`[cpu][executeCycle][OP_CODES.LD_OR_AND_XOR_ADD_SUB_SHR_SUBN_SHL] Direct OP Code: ${directOpCode}`);
           switch (directOpCode) {
             case OP_CODES.LD_VX_VY: {
