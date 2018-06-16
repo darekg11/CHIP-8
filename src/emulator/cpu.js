@@ -3,10 +3,11 @@ import OP_CODES from './opcodes';
 const toHexString = numberToConvert => Number(numberToConvert).toString(16).toUpperCase();
 
 class CPU {
-  constructor(memoryController, graphicsController, inputController) {
+  constructor(memoryController, graphicsController, inputController, soundController) {
     this.memoryController = memoryController;
     this.graphicsController = graphicsController;
     this.inputController = inputController;
+    this.soundController = soundController;
     // The Chip 8 has 15 8-bit general purpose registers named V0,V1 up to VE.
     // The 16th register is used  for the ‘carry flag’
     this.v = new Array(16);
@@ -90,7 +91,7 @@ class CPU {
     }
     if (this.soundTimer > 0) {
       if (this.soundTimer === 1) {
-        // this.renderer.beep();
+        this.soundController.playSound();
       }
       this.soundTimer -= 1;
     }
