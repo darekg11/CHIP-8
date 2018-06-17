@@ -1,3 +1,5 @@
+import Logger from '../logger';
+
 class BeepSoundPlayer {
   constructor() {
     const AudioContext = window.AudioContext || window.webkitAudioContext || window.audioContext;
@@ -23,7 +25,7 @@ class BeepSoundPlayer {
         }
       }, 100);
     } else {
-      console.error('[beep-sound-player] Audio is not supported on your browser');
+      Logger.logError('[beep-sound-player] Audio is not supported on your browser');
     }
   }
 }

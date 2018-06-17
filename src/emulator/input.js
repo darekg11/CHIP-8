@@ -1,3 +1,5 @@
+import Logger from '../logger';
+
 class Input {
   constructor() {
     // Chip 8 has a HEX based keypad (0x0-0xF), you can use an array to store the current state of the key.
@@ -13,7 +15,7 @@ class Input {
 
   pressKey = (keyAddress) => {
     if (keyAddress < 0 || keyAddress > 0xF) {
-      console.error(`Key Address: ${keyAddress} is outside of input mapping size!`);
+      Logger.logError(`Key Address: ${keyAddress} is outside of input mapping size!`);
     } else {
       this.inputMap[keyAddress] = 1;
     }
@@ -21,7 +23,7 @@ class Input {
 
   releaseKey = (keyAddress) => {
     if (keyAddress < 0 || keyAddress > 0xF) {
-      console.error(`Key Address: ${keyAddress} is outside of input mapping size!`);
+      Logger.logError(`Key Address: ${keyAddress} is outside of input mapping size!`);
     } else {
       this.inputMap[keyAddress] = 0;
     }
