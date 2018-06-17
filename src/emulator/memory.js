@@ -1,4 +1,5 @@
 import characters from './fonts';
+import Logger from '../logger';
 
 class Memory {
   constructor() {
@@ -30,7 +31,7 @@ class Memory {
 
   getValueAtAddress = (address) => {
     if (address < 0 || address >= this.memoryBank.length) {
-      console.error(`[memory][getValueAtAddress][out-of-bounds] ${address} value is out of bounds`);
+      Logger.logError(`[memory][getValueAtAddress][out-of-bounds] ${address} value is out of bounds`);
       return null;
     }
     return this.memoryBank[address];
@@ -38,7 +39,7 @@ class Memory {
 
   storeValueAtAddress = (address, value) => {
     if (address < 0 || address >= this.memoryBank.length) {
-      console.error(`[memory][storeValueAtAddress][out-of-bounds] ${address} value is out of bounds`);
+      Logger.logError(`[memory][storeValueAtAddress][out-of-bounds] ${address} value is out of bounds`);
       return false;
     }
     this.memoryBank[address] = value;
