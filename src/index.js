@@ -109,7 +109,7 @@ romSelectionInput.addEventListener('change', (event) => {
   const selectedRomName = event.target.value;
   const xhrRequestForRom = new XMLHttpRequest();
   xhrRequestForRom.responseType = 'arraybuffer';
-  xhrRequestForRom.open('GET', `../roms/${selectedRomName}.bin`, true);
+  xhrRequestForRom.open('GET', `./roms/${selectedRomName}.bin`, true);
   xhrRequestForRom.onload = (result) => {
     const romBinDump = result.target.response;
     const romBinDumpConvertedToUintArray = new Uint8Array(romBinDump);
