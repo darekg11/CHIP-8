@@ -1,3 +1,10 @@
-.input-box {
+.input-box-container {
   display: flex;
+  align-items: center;
+}
+
+.screen-renderer-text-input-box {
+  height: 20px;
+  width: 50px;
+  margin-left: 10px;
 }
