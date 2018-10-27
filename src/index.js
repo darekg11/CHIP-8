@@ -258,8 +258,8 @@ const pongBinDump = [
 
 const HEIGHT = 32;
 const WIDTH = 64;
-const SCALE = 5;
 const CYCLES_PER_RENDER = 10;
+let scale = 5;
 let isEmulationRunning = false;
 
 class Emulator {
@@ -319,12 +319,33 @@ emulationStartStopButton.addEventListener('click', () => {
   isEmulationRunning = !isEmulationRunning;
 });
 
-const canvas = document.getElementById('chip8-canvas');
-const renderer = new CanvasRenderer(canvas, WIDTH, HEIGHT, SCALE);
+let renderer = '';
+const initializeRenderCanvas = () => {
+  const canvas = document.getElementById('chip8-canvas');
+  renderer = new CanvasRenderer(canvas, WIDTH, HEIGHT, scale);
+};
+
 const emulator = new Emulator();
 hookUpControlls(emulator);
-renderer.clearScreen();
+initializeRenderCanvas();
 emulator.loadGame();
+
+const rendererCanvasSizeRatioInput = document.getElementById('screen-ratio-size');
+rendererCanvasSizeRatioInput.addEventListener('change', (event) => {
+  let enteredNumber = Number(event.target.value);
+  if (enteredNumber > 10) {
+    enteredNumber = 10;
+  }
+  if (enteredNumber < 5) {
+    enteredNumber = 5;
+  }
+  // if value is different
+  if (enteredNumber !== scale) {
+    console.log('execute');
+    scale = enteredNumber;
+    initializeRenderCanvas();
+  }
+});
 
 const gameLoop = () => {
   if (isEmulationRunning) {

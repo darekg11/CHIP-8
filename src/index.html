@@ -6,9 +6,9 @@
   <title>Chip-8 Emulator</title>
   <link type="stylesheet" </head> <body>
   <canvas id="chip8-canvas"></canvas>
-  <div class="input-box">
-    <p>Configurable speed of simulation, min is 5 and max is 10</p>
-    <input id="screen-ratio-size" type="number" min="5" max="10" />
+  <div class="input-box-container">
+    <p>Configurable ratio size of rendered canvas, min is 5 and max is 10: </p>
+    <input class="screen-renderer-text-input-box" id="screen-ratio-size" value="5" type="number" min="5" max="10" />
   </div>
   <div>
     <button id="btn-start-stop-emulation">
