@@ -118,7 +118,7 @@ romSelectionInput.addEventListener('change', (event) => {
   };
   const xhrRequestForRomDescription = new XMLHttpRequest();
   xhrRequestForRomDescription.responseType = 'text';
-  xhrRequestForRomDescription.open('GET', `../roms/${selectedRomName}.txt`, true);
+  xhrRequestForRomDescription.open('GET', `./roms/${selectedRomName}.txt`, true);
   xhrRequestForRomDescription.onload = (result) => {
     const romDescription = result.target.response;
     romDescriptionText.textContent = romDescription;
