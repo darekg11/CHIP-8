@@ -258,9 +258,9 @@ const pongBinDump = [
 
 const HEIGHT = 32;
 const WIDTH = 64;
-const CYCLES_PER_RENDER = 10;
+let cyclesPerRender = 10;
 let scale = 5;
-let isEmulationRunning = false;
+let isEmulationRunning = true;
 
 class Emulator {
   constructor() {
@@ -341,15 +341,29 @@ rendererCanvasSizeRatioInput.addEventListener('change', (event) => {
   }
   // if value is different
   if (enteredNumber !== scale) {
-    console.log('execute');
     scale = enteredNumber;
     initializeRenderCanvas();
   }
 });
 
+const emulationSpeedInput = document.getElementById('emulation-speed');
+emulationSpeedInput.addEventListener('change', (event) => {
+  let enteredNumber = Number(event.target.value);
+  if (enteredNumber > 20) {
+    enteredNumber = 20;
+  }
+  if (enteredNumber < 1) {
+    enteredNumber = 1;
+  }
+  // if value is different
+  if (enteredNumber !== scale) {
+    cyclesPerRender = enteredNumber;
+  }
+});
+
 const gameLoop = () => {
   if (isEmulationRunning) {
-    for (let i = 0; i < CYCLES_PER_RENDER; i += 1) {
+    for (let i = 0; i < cyclesPerRender; i += 1) {
       emulator.executeCycle();
     }
   }
