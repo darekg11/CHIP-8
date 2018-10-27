@@ -1,3 +1,5 @@
+import './index.css';
+
 import CPU from './emulator/cpu';
 import Memory from './emulator/memory';
 import Graphics from './emulator/graphics';
