@@ -8,3 +8,13 @@
   width: 50px;
   margin-left: 10px;
 }
+
+.rom-select-container {
+  display: flex;
+  align-items: center;
+}
+
+.rom-select-input {
+  width: 200px;
+  margin-left: 10px;
+}
