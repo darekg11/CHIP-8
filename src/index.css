@@ -24,12 +24,17 @@
   border-radius: 25px;
   max-width: 400px;
   border: 1px solid slategrey;
-  max-height: 250px;
+  max-height: 350px;
   overflow: scroll;
-  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .rom-description-text {
   margin: 20px;
   white-space: pre-line;
+}
+
+.keyboard-settings-container {
+  margin-top: 10px;
+  display: flex;
 }
