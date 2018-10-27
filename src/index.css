@@ -18,3 +18,18 @@
   width: 200px;
   margin-left: 10px;
 }
+
+.rom-description-container {
+  display: flex;
+  border-radius: 25px;
+  max-width: 400px;
+  border: 1px solid slategrey;
+  max-height: 250px;
+  overflow: scroll;
+  margin-top: 20px;
+}
+
+.rom-description-text {
+  margin: 20px;
+  white-space: pre-line;
+}

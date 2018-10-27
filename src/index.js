@@ -100,6 +100,7 @@ hookUpControlls(emulator);
 initializeRenderCanvas();
 
 const romSelectionInput = document.getElementById('rom-selection');
+const romDescriptionText = document.getElementById('rom-description');
 roms.forEach((singleRom) => {
   romSelectionInput.options.add(new Option(singleRom, singleRom));
 });
@@ -115,7 +116,15 @@ romSelectionInput.addEventListener('change', (event) => {
     emulator.loadGame(romBinDumpConvertedToUintArray);
     isEmulationRunning = true;
   };
+  const xhrRequestForRomDescription = new XMLHttpRequest();
+  xhrRequestForRomDescription.responseType = 'text';
+  xhrRequestForRomDescription.open('GET', `../roms/${selectedRomName}.txt`, true);
+  xhrRequestForRomDescription.onload = (result) => {
+    const romDescription = result.target.response;
+    romDescriptionText.textContent = romDescription;
+  };
   xhrRequestForRom.send();
+  xhrRequestForRomDescription.send();
 });
 
 const emulationStartStopButton = document.getElementById('btn-start-stop-emulation');
