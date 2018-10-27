@@ -36,6 +36,24 @@ const WIDTH = 64;
 let cyclesPerRender = 10;
 let scale = 5;
 let isEmulationRunning = false;
+let keyMappings = {
+  49: 1,
+  50: 2,
+  51: 3,
+  52: 13,
+  81: 4,
+  87: 5,
+  69: 6,
+  82: 14,
+  65: 7,
+  83: 8,
+  68: 9,
+  70: 15,
+  90: 11,
+  88: 10,
+  67: 12,
+  86: 16,
+};
 
 class Emulator {
   constructor() {
@@ -60,24 +78,7 @@ class Emulator {
 }
 
 const hookUpControlls = (emulatorInstance) => {
-  const keyMappings = {
-    49: 0x1,
-    50: 0x2,
-    51: 0x3,
-    52: 0xc,
-    81: 0x4,
-    87: 0x5,
-    69: 0x6,
-    82: 0xd,
-    65: 0x7,
-    83: 0x8,
-    68: 0x9,
-    70: 0xe,
-    90: 0xa,
-    88: 0x0,
-    67: 0xb,
-    86: 0xf,
-  };
+
   document.addEventListener('keydown', (event) => {
     const { keyCode } = event;
     emulatorInstance.cpu.keyPressed(keyMappings[keyCode]);
@@ -88,6 +89,15 @@ const hookUpControlls = (emulatorInstance) => {
     emulatorInstance.cpu.keyReleased(keyMappings[keyCode]);
   });
 };
+
+const updateKeyBindingsButton = document.getElementById('updateKeyBindings');
+updateKeyBindingsButton.addEventListener('click', (e) => {
+  keyMappings = {};
+  Array.from(document.getElementsByClassName("keyInput")).forEach(function(item) {
+    keyMappings[item.innerHTML.toUpperCase().charCodeAt(0)] = parseInt(item.id.substring(4), 10);
+  });
+ 
+});
 
 let renderer = '';
 const initializeRenderCanvas = () => {
