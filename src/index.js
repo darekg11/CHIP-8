@@ -78,7 +78,6 @@ class Emulator {
 }
 
 const hookUpControlls = (emulatorInstance) => {
-
   document.addEventListener('keydown', (event) => {
     const { keyCode } = event;
     emulatorInstance.cpu.keyPressed(keyMappings[keyCode]);
@@ -91,12 +90,11 @@ const hookUpControlls = (emulatorInstance) => {
 };
 
 const updateKeyBindingsButton = document.getElementById('updateKeyBindings');
-updateKeyBindingsButton.addEventListener('click', (e) => {
+updateKeyBindingsButton.addEventListener('click', () => {
   keyMappings = {};
-  Array.from(document.getElementsByClassName("keyInput")).forEach(function(item) {
+  Array.from(document.getElementsByClassName('keyInput')).forEach((item) => {
     keyMappings[item.innerHTML.toUpperCase().charCodeAt(0)] = parseInt(item.id.substring(4), 10);
   });
- 
 });
 
 let renderer = '';
