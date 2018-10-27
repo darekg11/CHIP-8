@@ -7,7 +7,29 @@ import Input from './emulator/input';
 import CanvasRenderer from './emulator/canvasRenderer';
 import BeepSoundPlayer from './emulator/beepSoundPlayer';
 
-const roms = ['PONG', 'PONG2', 'Random'];
+const roms = [
+  'Breakout [Carmelo Cortez, 1979]',
+  'Pong [Paul Vervalin, 1990]',
+  'Astro Dodge [Revival Studios, 2008]',
+  'Bowling [Gooitzen van der Wal]',
+  'Hi-Lo [Jef Winsor, 1978]',
+  'Kaleidoscope [Joseph Weisbecker, 1978]',
+  'Guess [David Winter]',
+  'Blitz [David Winter]',
+  'Connect 4 [David Winter]',
+  'Biorhythm [Jef Winsor]',
+  'Shooting Stars [Philip Baltzer, 1978]',
+  'Brick (Brix hack, 1990)',
+  'Hidden [David Winter, 1996]',
+  'Coin Flipping [Carmelo Cortez, 1978]',
+  'Space Invaders [David Winter]',
+  'Craps [Camerlo Cortez, 1978]',
+  'Slide [Joyce Weisbecker]',
+  'Animal Race [Brian Astle]',
+  '15 Puzzle [Roger Ivie]',
+  'Tetris [Fran Dachille, 1991]',
+  'Deflection [John Fort]',
+];
 
 const HEIGHT = 32;
 const WIDTH = 64;
@@ -86,7 +108,7 @@ romSelectionInput.addEventListener('change', (event) => {
   const selectedRomName = event.target.value;
   const xhrRequestForRom = new XMLHttpRequest();
   xhrRequestForRom.responseType = 'arraybuffer';
-  xhrRequestForRom.open('GET', `../roms/${selectedRomName}`, true);
+  xhrRequestForRom.open('GET', `../roms/${selectedRomName}.bin`, true);
   xhrRequestForRom.onload = (result) => {
     const romBinDump = result.target.response;
     const romBinDumpConvertedToUintArray = new Uint8Array(romBinDump);
