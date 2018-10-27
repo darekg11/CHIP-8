@@ -4,7 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Chip-8 Emulator</title>
-  <link type="stylesheet" </head> <body>
+</head>
+
+<body>
+  <div class="rom-select-container">
+    <p>ROM: </p>
+    <select class="rom-select-input" id="rom-selection">
+      <option disabled selected value> -- SELECT ROM -- </option>
+    </select>
+  </div>
   <canvas id="chip8-canvas"></canvas>
   <div class="input-box-container">
     <p>Configurable ratio size of rendered canvas, min is 5 and max is 10: </p>
@@ -19,6 +27,6 @@
       START / STOP EMULATION
     </button>
   </div>
-  </body>
+</body>
 
 </html>
