@@ -18,3 +18,7 @@ Why not? Mostly for fun and to learn basic of emulating.
 
 Roms have been copied from https://github.com/dmatlack/chip8  
 Thanks
+
+# Live version:
+
+[Hosted via GitHub Pages](https://darekg11.github.io/CHIP-8/)
